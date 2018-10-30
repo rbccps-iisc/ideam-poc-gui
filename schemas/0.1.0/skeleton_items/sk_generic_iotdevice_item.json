@@ -1,0 +1,75 @@
+{
+  "refCatalogueSchema": "generic_iotdevice_schema.json",
+  "id": "sl_XYZ",
+  "tags": [
+    "onstreet",
+    "Energy",
+    "still under development!"
+  ],
+  "refCatalogueSchemaRelease":"0.1.0",
+  "latitude": {
+    "value": 13.0143335,
+    "ontologyRef": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  },
+  "longitude": {
+    "value": 77.5678424,
+    "ontologyRef": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  },
+  "owner": {
+    "name": "Owner Name",
+    "website": "http://owner.web.site[Optional]"
+  },
+  "provider": {
+    "name": "Provider Name",
+    "website": "http://provider.web.site[Optional]"
+  },
+  "accessMechanism": {
+    "requestAccessSite": {
+      "describes": "URI for getting permissions to access the device", 
+      "value": "http://rbccps.org/middleware/requestAccess"
+    }, 
+    "accessEndPoint": {
+       "value": "https://rbccps.org/middleware/api/{api_ver}/db",
+       "describes": "End point to access the archived values (database access endpoint)"
+    },
+    "subscriptionEndPoint": {
+       "value": "mqtt://rbccps.org/subscription/live",
+       "describes": "End point for subscribing to LIVE data"
+    },
+    "resourceAPIInfo": {
+       "value": "http://rbccps.org/resourceInfo/api",
+       "describes": "Information on how to use various APIs (access, update, cat) associated with this resource"
+    }
+  },
+  "data_schema": {
+    "type": "object",
+    "properties": {
+        "param1": {
+          "type": "number",
+          "description": "Parameter 1",
+          "units": "param1units",
+          "permissions": "read",
+          "accessModifier": "public"
+        },
+        "targetComplexParam1": {
+          "type": "object",
+          "permissions": "read-write",
+          "properties": {
+            "targetComplexParam1_A": {
+              "type": "number",
+              "description": "describes targetComplexParam1_A",
+              "units": "unitsOftargetComplexParam1_A",
+              "accessModifier": "protected"
+            },
+            "targetComplexParam1_B": {
+              "type": "number",
+              "description": "describes targetComplexParam1_B",
+              "units": "unitsOftargetComplexParam1_B",
+              "accessModifier": "protected"
+            }
+          }
+        }
+    },
+    "additionalProperties": false
+  }
+}

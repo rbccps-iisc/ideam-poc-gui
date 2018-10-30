@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "describes": "Base schema of catalogue entries",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "describes": "unique identifier of the data resource within this domain"
+    },
+    "refCatalogueSchema": {
+      "type": "string",
+      "describes": "Reference to the catalogue schema to which this entry adheres"
+    },
+    "refCatalogueSchemaRelease": {
+      "type": "string",
+      "describes": "Release number of the reference catalogue schema schema as per the Semantic Versioning major:minor:patch"
+    },
+    "owner": {
+      "$ref": "cdx_base_def.json#/definitions/ownerSchema"
+    },
+    "provider": {
+      "$ref": "cdx_base_def.json#/definitions/ownerSchema"
+    },
+    "accessMechanism": {
+      "$ref": "cdx_base_def.json#/definitions/accessMechanismSchema"
+    },
+    "resourceType": {
+      "type": "string",
+      "describes": "Indicates the type of data source (e.g. streetlight )"
+    },
+    "tags": {
+      "$ref": "cdx_base_def.json#/definitions/tagsSchema"
+    },
+    "message_schemas": {
+      "describes": "Schemas of various messages from/to the information source",
+      "type": "object",
+      "properties": {
+         "type": {
+           "type": "string",
+           "enum": ["object"]
+         },
+         "additionalProperties": {
+           "type": "boolean"
+         },
+         "properties": {
+            "patternProperties": {
+               "[a-zA-Z0-9]+$": {
+                 "type": "object",
+                 "describes": "Schema of a message from the information source",
+                 "required" : ["type", "direction", "sharing", "priority", "describes", "properties"],
+                 "properties": {
+                   "type": {
+                     "type": "string",
+                     "enum": ["object"]
+                   },
+                   "schema" : {
+                   	  "type" : "string",
+                   	  "format" : "uri-reference"
+                   },
+                   "tags": {
+                     "$ref": "cdx_base_def.json#/definitions/tagsSchema"
+                   },
+                   "describes": {
+                     "type": "string"
+                   },
+                   "priority": {
+                      "type": "string",
+                      "enum":["low", "medium", "high"]
+                   },
+                   "sharing": {
+                      "$ref":"cdx_base_def.json#/definitions/sharingTypeSchema"
+                   },
+                   "direction" : {
+                      "type": "string",
+                      "enum" : ["fromThing", "toThing"]
+                   },
+                   "required" : {
+                     "type" : "array",
+                     "minItems" : 0,
+                     "uniqueItems":true,
+                     "items" : {"type" : "string"}
+                    },
+                   "properties": {
+                     "type": "object",
+                     "patternProperties": {
+                       "[a-zA-Z0-9]+$": {
+                         "$ref": "cdx_base_def.json#/definitions/resourceDataSchema"
+                       }
+                     }
+                   }
+                 }
+               }
+           }
+        }
+     }
+    }
+  },
+  "additionalProperties": {
+    "type": ["string", "object", "boolean", "array"]
+  },
+  "required": [
+    "id",
+    "refCatalogueSchema",
+    "refCatalogueSchemaRelease",
+    "owner",
+    "tags"
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "refCatalogueSchema": "cdx_base_staticThing.json",
+  "id": "etoiletXYZ",
+  "tags": [
+    "Water",
+    "e toilet",
+    "Sanitation"
+  ],
+  "refCatalogueSchemaRelease":"0.2.0",
+  "latitude": {
+    "value": 13.0143335,
+    "ontologyRef": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  },
+  "longitude": {
+    "value": 77.5678424,
+    "ontologyRef": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  },
+  "owner": {
+    "name": "ELCITA",
+    "website": "http://www.iisc.ac.in"
+  },
+  "geoLocation": {
+      "state": "Karnataka",
+      "district": "Bangalore",
+      "city": "Bangalore Electronic City"
+  },
+  "message_schemas": {
+     "type": "object",
+     "properties": {
+         "observation_msg": {
+             "schema": "http://json-schema.org/draft-07/schema#",
+             "type": "object",
+             "describes": "Observation messages from the streetlight",
+             "direction": "fromThing",
+             "priority": "low",
+             "tags": ["e toilet","sanitation"],
+             "sharing": "public",
+             "required": ["unit", "fare", "accs", "lastUsageTime", "todaysUsageCount", "lastWaterlowTime", "status"],
+             "properties": {
+                  "state": {
+                    "type": "string",
+                    "description": "State in which e-toilet is located"
+                  },
+                  "district": {
+                    "type": "string",
+                    "description": "Disctrict in which e-toilet is located"
+                  },
+                  "city": {
+                    "type": "string",
+                    "description": "City in which e-toilet is located"
+                  },
+                  "client": {
+                    "type": "string",
+                    "description": "Client name for this e-toilet unit data"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "description": "ID for this e-toilet unit"
+                  },
+                  "fare": {
+                    "type": "string",
+                    "description": "Description of fare for this e-toilet unit"
+                  },
+                  "accs": {
+                    "type": "string",
+                    "description": "Gender access for this e-toilet unit"
+                  },
+                  "latitude": {
+                    "type": "string",
+                    "description": "Latitude value for this e-toilet in WGS 84 reference (ontology reference: http://www.w3.org/2003/01/geo/wgs84_pos#)"
+                  },
+                  "longitude": {
+                    "type": "string",
+                    "description": "Latitude value for this e-toilet in WGS 84 reference (ontology reference: http://www.w3.org/2003/01/geo/wgs84_pos#)"
+                  },
+                  "lastUsageTime": {
+                    "type": "string",
+                    "description": "Last Usage time-stamp, Format: Date(YYYY-MM-DD) Time(HH:MM:SS.MS)"
+                  },
+                  "todaysUsageCount": {
+                    "type": "number",
+                    "description": "Number of times the e-toilet unit has been used on the current date",
+                    "units": "integer"
+                  },
+                  "lastWaterlowTime": {
+                    "type": "string",
+                    "description": "Last Time-stamp when a low water level was observed, Format: Date(YYYY-MM-DD) Time(HH:MM:SS.MS)"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Current status of the e-toilet unit"
+                  }
+            },
+            "additionalProperties": false
+           }
+      },
+      "additionalProperties": false
+  }
+}

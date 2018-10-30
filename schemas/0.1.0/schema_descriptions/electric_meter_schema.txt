@@ -1,0 +1,33 @@
+Schema Name: electric_meter_schema
+
+Base schemas: isco_base_schema
+
+Target devices: Electric meters
+
+General description: 
+
+Field descriptions:
+
+Mandatory fields:
+
+All mandatory fields from the base schema are applicable.
+
+
+Additional mandatory fields:
+"geoLocation":
+To provide information about device location. For meters, the GPS
+coordinates are not that useful. We need to provide information about
+indoor locations of the meters (e.g., building, floor, room etc.)
+
+"loadtype":
+What kind of a load is this meter serving ("AC", "HVAC" etc.)
+
+"connection_topology"
+This is to provide information about the relative position of the 
+meter in the electrical connection topology. That is, whose sub-meter is
+this meter and who are other meters down the line of this given meter. This
+type of information will be really useful when we derive the aggregate
+energy consumption or other analytic applications over meter data.
+
+Other fields:
+

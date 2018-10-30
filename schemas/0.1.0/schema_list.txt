@@ -1,0 +1,6 @@
+{[
+isco_base_schema.json: {},
+isco_base_def.json: {},
+generic_iotdevice_schema.json:{ "tags": ["iot-device","sensors","actuators"]},
+electric_meter_schema.json:{ "tags": ["meter", "energy"]}
+]}

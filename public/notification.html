@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>RBCCPS | IDEAM-CATALOGUE VISUALIZER</title>
+    <meta name="viewport" content="initial-scale=1.0", user-scalable=no>
+    <meta charset="utf-8">
+    <meta name="description" content="Notification Visualizer for IDEAM-CATALOGUE">
+    <meta name="organization" content="RBCCPS, IISc Bangalore">
+    <meta name="keywords" content="IDEAM, CDX, CATALOGUE, CATALOGUE VISUALIZER, RBCCPS, IISc BANGALORE">
+    <meta name="author" content="Jishnu Jaykumar P (http://jishnujayakumar.github.io)">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="icon" type="image/png" href="https://rbccps-iisc.github.io/ideam-web-ui/modules/ui-dashboard/ui-dashboard/assets/img/rbccps.ico">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <title>Starter Template - Materialize</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+ .icon-block {
+  padding: 0 15px;
+ }
+ .icon-block .material-icons {
+	font-size: inherit;
+ }
+  </style>
+</head>
+<body>
+  
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">Follow Requests</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">A sample notification prototype</h5>
+
+      </div>
+      <br><br>
+<div>
+ <ul  id="req" class="collection">
+    
+  </ul>
+    </div>
+  </div>
+
+</div>
+  
+
+ 
+<link rel="stylesheet" type="text/css" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <footer  style="position:absolute;bottom:0;width:100%;z-index:100">
+        <center>
+          <div class="container" style="font-size:14px;font-weight:bold;">
+             Made by <a href="https://jishnujayakumar.github.io" target="_blank">Jishnu P</a> <br>  © <script>document.write(new Date().getFullYear()) </script> RBCCPS, IISc Bangalore 
+          <!-- Made with <i class="icon ion-heart" style="color:red"></i> by <a>Jishnu P</a> -->
+
+        </center>
+        </div>
+    </footer>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+
+(function($){
+  $(function(){
+
+    $('.sidenav').sidenav();
+
+  }); // end of document ready
+})(jQuery); // end of jQuery name space
+
+M.AutoInit();
+
+function share(){
+var share_status=$.ajax({
+                       async:false,
+                       url: '/cat/share/',
+                       type: 'GET',
+                       dataType:"JSON",
+                       }).responseJSON;
+var r=JSON.parse(share_status["value"]);
+console.log(share_status,r,r['info']);
+if(r['status']=='failure'){
+M.toast({html: r['reason']});
+}else{
+M.toast({html: r['info']});
+}
+
+}
+
+function showPaymentStatus(track_id){
+
+var paymt_status=$.ajax({
+                       async:false,
+                       url: '/cat/paymt-status/',
+                       type: 'GET',
+                       dataType:"JSON",
+		       data: {		      
+        		"tracking_id":''+track_id
+    		       }
+                       }).responseJSON;
+//console.log(paymt_status);
+
+
+if(JSON.parse(paymt_status["value"])["Status"]=="issued"){
+M.toast({html: "Payment Pending."});
+}else if(JSON.parse(paymt_status["value"])["Status"]=="paid"){
+M.toast({html: "Payment Done. <br> Now you can grant share access."});
+$('#'+track_id).html('<button onClick="share()" class="waves-effect waves-light btn orange darken-2"><i class="material-icons right">share</i>Share</button>');
+}
+
+}
+
+function trigger_payment(id){
+var paymt_data=$.ajax({
+                       async:false,
+                       url: '/cat/paymt-req',
+                       type: 'GET',
+                       dataType:"JSON"
+                       }).responseJSON;
+
+console.log(paymt_data);
+
+$('#'+id).html('<div id="' + JSON.parse(paymt_data["value"])["trackingid"]  + '"><button onClick="showPaymentStatus(\'' + JSON.parse(paymt_data["value"])["trackingid"] + '\')" class="waves-effect waves-light btn purple darken-2"><i class="material-icons right">info_outline</i>Track-ID: '+ JSON.parse(paymt_data["value"])["trackingid"] + '</button></div>');
+M.toast({html: 'Payment request has been sent successfully. You can see the status of payment using the track-id provided.'})
+}
+
+
+var ret_data=$.ajax({
+                       async:false,
+                       url: '/cat/get-follow-requests',
+                       type: 'GET',
+                       dataType:"JSON"
+                       }).responseJSON;
+
+var content = JSON.parse(ret_data['value']);
+//console.log(content, content.length);
+var req_content = ""
+var con_len = content.length;
+//console.log(con_len);
+if(content.length == 0){
+req_content="";
+M.toast({html: "No requests found"});
+}else{
+var v;
+for(var i=0;i<con_len;i++){
+
+if(content[i]["data"]["validity"].includes("D")){
+		v=content[i]["data"]["validity"].replace("D", " day/s");
+	}else if(content[i]["data"]["validity"].includes("W")){
+		v=content[i]["data"]["validity"].replace("W", " week/s");
+	}else if(content[i]["data"]["validity"].includes("Y")){
+		v=content[i]["data"]["validity"].replace("Y", " year/s");
+	}
+req_content+='<li class="collection-item avatar">\
+      <img src="data:image/png;base64,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" alt="" class="circle">\
+      <span class="title">From: ' + content[i]["data"]["email"] + ' | Contact: ' + content[i]["data"]["contact"] + '</span>\
+      <p>\
+	' + content[i]["data"]["requestor"] + ' is requesting \
+	' + content[i]["data"]["permission"] + ' access for \
+	' + v + ' <br>\
+	' + content[i]["data"]["timestamp"] + ' <br>\
+      </p>\
+	<div id="' + i + '" class="secondary-content">\
+      <button class="btn waves-effect waves-light" onClick="trigger_payment(' + i + ')" name="action">Accept\
+    <i class="material-icons right">check</i>\
+  </button></div>\
+    </li>'
+}
+}
+
+$("#req").html(req_content);
+
+
+//parse ret_data and place inside div id = "req"
+</script>
+
+  </body>
+</html>

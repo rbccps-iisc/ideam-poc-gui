@@ -1,0 +1,48 @@
+{
+  "refCatalogueSchema": "cdx_base_staticThing.json",
+  "id": "sl_XYZ",
+  "tags": [
+    "onstreet",
+    "Energy",
+    "still under development!"
+  ],
+  "refCatalogueSchemaRelease":"0.1.0",
+  "latitude": {
+    "value": 13.0143335,
+    "ontologyRef": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  },
+  "longitude": {
+    "value": 77.5678424,
+    "ontologyRef": "http://www.w3.org/2003/01/geo/wgs84_pos#"
+  },
+  "owner": {
+    "name": "Owner Name",
+    "website": "http://owner.web.site[Optional]"
+  },
+  "provider": {
+    "name": "Provider Name",
+    "website": "http://provider.web.site[Optional]"
+  },
+  "message_schemas": {
+     "type": "object",
+     "properties": {
+         "MESSAGE1": {
+             "$schema": "http://json-schema.org/draft-07/schema#",
+             "type": "object",
+             "describes": "describes the message",
+             "direction": "fromThing",
+             "priority": "low",
+             "tags": ["tags about the message"],
+             "sharing": "public",
+             "properties": {
+               "param1": {
+                 "type": "number",
+                 "description": "describes the params"
+               }
+            },
+            "additionalProperties": false
+           }
+      },
+      "additionalProperties": false
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "describes": "Base schema of catalogue entries",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "describes": "unique identifier of the data resource within this domain"
+    },
+    "refCatalogueSchema": {
+      "type": "string",
+      "describes": "Reference to the catalogue schema to which this entry adheres"
+    },
+    "refCatalogueSchemaRelease": {
+      "type": "string",
+      "describes": "Release number of the reference catalogue schema schema as per the Semantic Versioning major:minor:patch"
+    },
+    "owner": {
+      "$ref": "isco_base_def.json#/definitions/ownerSchema"
+    },
+    "provider": {
+      "$ref": "isco_base_def.json#/definitions/ownerSchema"
+    },
+    "accessMechanism": {
+      "$ref": "isco_base_def.json#/definitions/accessMechanismSchema"
+    },
+    "resourceType": {
+      "type": "string",
+      "describes": "Indicates the type of data source (e.g. streetlight )"
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 0,
+      "describes": "any strings which annotates this resource",
+      "items": {
+        "type": "string"
+      }
+    },
+    "data_schema": {
+      "describes": "Schema of the data from the information source",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "describes": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "patternProperties": {
+            "[a-zA-Z0-9]+$": {
+              "$ref": "isco_base_def.json#/definitions/resourceDataSchema"
+            }
+          }
+        },
+        "additionalProperties": {
+           "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "serialization_from_device": {
+      "describes": "Data serialization format used to send data from the device",
+      "type": "object",
+      "properties":{
+          "format": {
+            "type": "string"
+          },
+          "schema_ref": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "link"
+            ]
+          }
+      },
+      "required": [
+          "format",
+          "schema_ref"
+      ]
+    },
+    "serialization_to_device": {
+      "describes": "Data serialization format used to send data to the device",
+      "type": "object",
+      "properties":{
+          "format": {
+            "type": "string"
+          },
+          "schema_ref": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "link"
+            ]
+          }
+      },
+      "required": [
+          "format",
+          "schema_ref"
+      ]
+    }
+  },
+  "additionalProperties": {
+    "type": ["string", "object"]
+  },
+  "required": [
+    "id",
+    "refCatalogueSchema",
+    "refCatalogueSchemaRelease",
+    "owner",
+    "provider",
+    "accessMechanism",
+    "data_schema",
+    "tags"
+  ]
+}

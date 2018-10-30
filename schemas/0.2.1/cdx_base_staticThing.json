@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "describes": "Schema of catalogue entries",
+  "type": "object",
+  "allOf": [
+   {"$ref": "cdx_base_schema.json#"}
+  ],
+  "properties": {
+    "latitude": {
+      "$ref": "cdx_base_def.json#/definitions/latlongschema",
+      "describes": "latitude"
+    },
+    "longitude": {
+      "$ref": "cdx_base_def.json#/definitions/latlongschema",
+      "describes": "latitude"
+    },
+    "altitude": {
+      "$ref": "cdx_base_def.json#/definitions/latlongschema",
+      "describes": "altitude"
+    },
+    "geoLocation": {
+      "$ref": "cdx_base_def.json#/definitions/geoLocationSchema"
+    }
+  },
+  "required":[
+    "latitude",
+    "longitude"
+  ]
+}

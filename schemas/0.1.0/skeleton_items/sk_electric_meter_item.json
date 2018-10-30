@@ -1,0 +1,62 @@
+{
+  "refCatalogueSchema": "electric_meter_schema.json",
+  "id": "rbc_em_1",
+  "refCatalogueSchemaRelease":"0.1.0",
+  "tags": [
+    "electric meter",
+    "Energy",
+    "HAVC"
+  ],
+  "loadtype": "AC",
+  "owner": {
+    "name": "IISC",
+    "website": "http://www.iisc.ac.in"
+  },
+  "provider": {
+    "name": "Robert Bosch Centre for Cyber Physical Systems, IISc",
+    "website": "http://rbccps.org"
+  },
+  "geoLocation": {
+    "indoor_location": {
+      "building_name": "Enterpreneurship Center",
+      "floor": "3rd Flr",
+      "room": "UPS Room",
+      "address": "RBCCPS, IISC, Bangalore, 560012"
+    }
+  },
+  "connection_topology": {
+    "is_site_meter": false,
+    "site_topology": "http://rbccps.org/resourceInfo/building/topology"
+  },
+  "accessMechanism": {
+    "requestAccessSite": {
+      "describes": "URI for getting permissions to access the device", 
+      "value": "http://rbccps.org/middleware/requestAccess"
+    }, 
+    "accessEndPoint": {
+       "value": "https://rbccps.org/middleware/api/{api_ver}/db",
+       "describes": "End point to access the archived values (database access endpoint)"
+    },
+    "subscriptionEndPoint": {
+       "value": "mqtt://rbccps.org/subscription/live",
+       "describes": "End point for subscribing to LIVE data"
+    },
+    "resourceAPIInfo": {
+       "value": "http://rbccps.org/resourceInfo/api",
+       "describes": "Information on how to use various APIs (access, update, cat) associated with this resource"
+    }
+  },
+  "data_schema": {
+    "type": "object",
+    "properties": {
+        "param1": {
+          "type": "number",
+          "description": "Parameter 1",
+          "units": "param1units",
+          "permissions": "read",
+          "accessModifier": "public"
+        }
+    },
+    "additionalProperties": false
+  }
+}

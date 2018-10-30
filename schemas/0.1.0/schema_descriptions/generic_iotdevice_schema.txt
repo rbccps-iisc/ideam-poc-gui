@@ -1,0 +1,27 @@
+Schema Name: generic_iotdevice_schema
+
+Base schemas: isco_base_schema
+
+Target devices: Generic IoT devices which have a fixed, known location (For example, streetlights, 
+Sensors mounted on buildings/utility poles etc.)
+
+General description: 
+
+Field descriptions:
+
+Mandatory fields:
+
+All mandatory fields from the base schema are applicable.
+
+
+Additional mandatory fields:
+"latitute"/"longitude": 
+Lat/Long values. Although not mandatory we have provided a field to also
+provide ontological references of what lat/long reference system has been
+used to provide the lat/long values.
+
+Other fields:
+"altitude"
+"geoLocation":
+To provide information about device locations (e.g., mapid, indoor locations, address etc.)
+

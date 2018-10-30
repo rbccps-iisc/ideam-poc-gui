@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "describes": "Schema of catalogue entries",
+  "version": "1.0.0",
+  "type": "object",
+  "allOf": [
+   {"$ref": "isco_base_schema.json#"}
+  ],
+  "properties": {
+    "latitude": {
+      "$ref": "isco_base_def.json#/definitions/latlongschema",
+      "describes": "latitude"
+    },
+    "longitude": {
+      "$ref": "isco_base_def.json#/definitions/latlongschema",
+      "describes": "latitude"
+    },
+    "altitude": {
+      "$ref": "isco_base_def.json#/definitions/latlongschema",
+      "describes": "altitude"
+    },
+    "geoLocation": {
+      "$ref": "isco_base_def.json#/definitions/geoLocationSchema"
+    },
+    "loadtype": {
+      "describes": "Type of the load that the electric meter monitors (e.g., AC, HVAC, RAW etc.)",
+      "type": "string"
+    },
+    "connection_topology": {
+      "describes": "Provides information regarding the topology of electric meter connections",
+      "type": "object",
+      "properties": {
+         "is_site_meter": {
+            "describes": "Describes whether the meter is a main site meter or not",
+            "type": "boolean"
+         },
+         "site_topology": {
+            "describes": "Describes the link to where the topology for the site/building where the meter is located (it can be a URL or an id of another catalog item)",
+            "type": "string"
+         }
+      }
+    }
+  },
+  "required":[
+    "geoLocation",
+    "loadtype",
+    "connection_topology"
+  ]
+}

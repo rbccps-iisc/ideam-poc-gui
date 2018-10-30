@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html ng-app="catServer">
+    <head>
+        <title>Catalogue Server</title>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+        <!--script src="bower_components/angular/angular.min.js" type="text/javascript"></script-->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="bower_components/json-formatter/dist/json-formatter.css">
+        <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css">
+        <link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+        <script src="bower_components/json-formatter/dist/json-formatter.js" type="text/javascript"></script>
+        <script src="bower_components/d3/d3.js" charset="utf-8" type="text/javascript"></script>
+    	<script src="bower_components/nvd3/build/nv.d3.js" type="text/javascript"></script>
+    	<script src="bower_components/angular-nvd3/dist/angular-nvd3.js" type="text/javascript"></script>
+        <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+    </head>
+    <body >
+        <div ng-controller="myController">
+        	<div class="col-md-6">
+        		<json-formatter json="data" open="3"></json-formatter>
+        	</div>
+        	<div class="col-md-6">
+        		<nvd3 options="chartOptions" data="chartData"></nvd3><br>
+                <table ng-table="tableParams1" class="table">
+                    <tr ng-repeat="provider in providersData">
+                        <td title="'Provider'" sortable="'name'">
+                            {{provider.name}}</td>
+                        <td title="'No of Devices'" sortable="'num'">
+                            {{provider.num}}</td>
+                    </tr>
+                </table>
+
+                <table ng-table="tableParams1" class="table">
+                    <tr ng-repeat="owner in ownersData">
+                        <td title="'Owner'" sortable="'name'">
+                            {{owner.name}}</td>
+                        <td title="'No of Devices'" sortable="'num'">
+                            {{owner.num}}</td>
+                    </tr>
+                </table>
+        	</div>
+        	<!--pre style="word-wrap: break-word; white-space: pre-wrap;">
+  				<{{data | json}}>
+  			</pre-->
+        </div>
+    </body>
+</html>

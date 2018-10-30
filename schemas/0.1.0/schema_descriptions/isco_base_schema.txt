@@ -1,0 +1,51 @@
+Schema Name: isco_base_schema
+
+Base schemas: 
+Definition file: Uses isco_base_def file for defining sub-schemas.
+
+Target devices: All devices
+
+General description: Base schema for all the devices. Lists down some
+mandatory fields important for cataloging, device discovery purposes. Additional
+fields are allowed (and encouraged) that will help the user to use the device
+data effectively in apps.
+
+Field descriptions:
+
+Mandatory fields:
+
+"id" : 
+Unique id (unique in the context of all devices instantiated by a provider) of the device. 
+If the id is not unique, then the system will generate a unique id and inform the provider 
+during the onboarding process. 
+
+"owner":
+Owner of the device. The owner is the one who owns the data. Essentially, the entity who
+commissions the deployment of the device.
+
+"provider":
+Entity that is responsible for the deployment/maintenance of the device.
+
+"refCatalogueSchema":
+Schema to which an item belongs. The name of the schema file has to be mentioned for
+validation purposes.
+
+"refCatalogueSchemaRelease":
+Release number of the above schema.
+
+"data_schema":
+Meta-information about the device parameters (see the example items for more details).
+
+"tags":
+Useful cues to help device discovery. For example, if a device is measuring power 
+consumption then it might be useful to provide and "energy" tag with it.
+
+
+Other fields:
+
+"serialization_to_device":
+Data serialization format used to send data to the device
+
+"serialization_from_device":
+Data serialization format used to send data from the device
+

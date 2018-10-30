@@ -1,0 +1,363 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "describes": "Base schema of catalogue entries",
+  "type": "object",
+  "definitions": {
+    "tagsSchema": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems":true,
+      "describes": "any strings which annotates this resource",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sharingTypeSchema" : {
+      "type": "string",
+      "enum" : ["public", "private", "protected"]
+    },
+    "accessMechanismSchema": {
+      "type": "object",
+      "properties": {
+        "requestAccessSite": {
+          "type": "object",
+          "properties": {
+             "value": {
+               "type": "string",
+               "format": "uri"
+             },
+             "describes": {
+               "type": "string"
+             }
+          }
+        },
+        "accessEndPoint": {
+          "type": "object",
+          "properties": {
+             "value": {
+               "type": "string",
+               "format": "uri"
+             },
+             "describes": {
+               "type": "string"
+             }
+          }
+        },
+        "updateEndPoint": {
+          "type": "object",
+          "properties": {
+             "value": {
+               "type": "string",
+               "format": "uri"
+             },
+             "describes": {
+               "type": "string"
+             }
+          }
+        },
+        "resourceAPIInfo": {
+          "type": "object",
+          "properties": {
+             "value": {
+               "type": "string",
+               "format": "uri"
+             },
+             "describes": {
+               "type": "string"
+             }
+          }
+        },
+        "additionalResourceInfo": {
+          "type": "object",
+          "properties": {
+             "value": {
+               "type": "string",
+               "format": "uri"
+             },
+             "describes": {
+               "type": "string"
+             }
+          }
+        },
+        "subscriptionEndPoint": {
+          "type": "object",
+          "properties": {
+             "value": {
+               "type": "string",
+               "format": "uri"
+             },
+             "describes": {
+               "type": "string"
+             }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ownerSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "describes": "Owner's Name"
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "geoLocationSchema": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "describes": "Street address of the resource"
+        },
+        "mapid": {
+          "type": "string",
+          "format": "uri",
+          "describes": "Maps the resource on a map (see https://mapid.mapunity.in/)"
+        },
+        "indoor_location": {
+          "type": "object",
+          "describes": "Indoor location of the resource",
+          "properties": {
+             "building_name": {
+               "type": "string",
+               "describes": "Name of the building where the resource is located"
+             },
+             "address": {
+               "type": "string",
+               "describes": "Address of the building where the resource is located"
+             },
+             "floor": {
+               "type": "string",
+               "describes": "Floor number where the resource is located"
+             },
+             "room": {
+               "type": "string",
+               "describes": "Room Number/Description where the resource is located"
+             },
+             "misc_location_info": {
+               "type": "string",
+               "describes": "Other miscellaneous information about the indoor location of the resource (e.g., below the staircase or on the wall next to the door etc."
+             }
+          }
+        }
+      }
+    },
+    "latlongschema": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "ontologyRef": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "value",
+        "ontologyRef"
+      ]
+    },
+    "resourceDataSchema_lev1": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": [
+            "string"
+          ]
+        },
+        "enum": {
+          "type": [
+            "array"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "units": {
+          "type": "string"
+        },
+        "permissions": {
+          "enum": ["read", "read-write"]
+        },
+        "accessModifier": {
+          "enum": [ "public", "private", "protected" ]
+        }
+      },
+      "allOf": [
+         {
+           "anyOf": [
+           { "required": [ "type" ]},
+           { "required": [ "enum" ]}
+           ]
+         },
+         {
+           "anyOf": [
+           { "required": [ "properties" ]},
+           { "required": [ "units" ]}
+           ]
+         }
+      ]
+    },
+    "resourceDataSchema": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": [
+            "string"
+          ]
+        },
+        "properties": {
+          "type": "object",
+          "patternProperties": {
+            "[a-zA-Z0-9]+$": {
+              "type": "object"
+            }
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+          "type",
+          "description"
+      ]
+    },
+    "messageSchema": {
+       "type": "object",
+       "describes": "Schema of a message from the information source",
+       "properties": {
+         "type": {
+           "type": "string",
+           "enum": ["object"]
+         },
+         "tags": {
+           "$ref": "#/definitions/tagsSchema"
+         },
+         "description": {
+           "type": "string"
+         },
+         "priority": {
+            "type": "string",
+            "enum":["low", "medium", "high"]
+         },
+         "sharing": {
+            "$ref":"#/definitions/sharingTypeSchema"
+         },
+         "direction" : {
+            "type": "string",
+            "enum" : ["fromThing", "toThing"]
+         },
+         "required" : {
+	   "type" : "array",
+	   "minItems" : 1,
+	   "uniqueItems":true,
+	   "items" : {"type" : "string"}
+          },
+         "properties": {
+           "type": "object",
+           "patternProperties": {
+             "[a-zA-Z0-9]+$": {
+               "$ref": "#/definitions/resourceDataSchema"
+             },
+           "additionalProperties": {
+               "type": "boolean"
+            }  
+           }
+         },
+         "additionalProperties": {
+            "type": "boolean"
+         }
+       },
+       "required" : ["type", "direction", "sharing", "priority", "description", "required", "properties"]
+    },
+    "protoFileSchemaField": {
+      "describes": "Will be used to generate a proto file. Currently proto-json fields mapping is the one described in the scripts defined with conversion scripts used by PIQI language (piqi.org)",
+      "type": "object",
+      "properties": {
+         "name": {
+           "type": "string",
+           "describes": "Name of the parameter in the message"  
+         },
+         "type": {
+           "type": "string",
+           "describes": "Type of the parameter in the message. For example, int32, int16, protobuf-int32 etc. OR any self defined type"  
+         },
+         "mode": {
+           "enum": ["required", "optional", "repeated"],
+           "describes": "required/optional/repeated"  
+         },
+         "code": {
+           "describes": "Tag for proto-buff",
+           "type": "number"
+         }
+      },
+      "required": [
+         "name",
+         "type",
+         "mode",
+         "code"
+      ]
+    },
+    "protoFileSchema": {
+      "type": "object",
+      "properties": {
+        "module": {
+           "type": "string"
+        },
+        "typedef": {
+          "type": "array",
+          "items":{
+            "type": "object",
+            "properties": {
+               "record": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "$ref": "#/definitions/protoFileSchemaField"
+                      }
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "field"
+                  ]
+               }
+            },
+            "required": [
+              "record"
+            ] 
+          }
+        }
+      },
+      "required": [
+        "typedef"
+      ],
+      "additionalProperties": false
+    },
+    "resourceParamsSchema": {
+      "type": "object",
+      "patternProperties": {
+        "[a-zA-Z0-9]+$": {
+          "$ref": "#/definitions/valueSchema"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
