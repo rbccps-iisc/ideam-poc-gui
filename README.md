@@ -1,7 +1,7 @@
-For CAT UI, go to [http://139.59.89.23:8000/cat/ui](http://139.59.89.23:8000/cat/ui){:target="_blank"}
+For CAT UI, go to [http://139.59.89.23:8000/cat/ui](http://139.59.89.23:8000/cat/ui)
 ------------------------------------------------------------------------------------
 
-For follow request notifications, go to [http://139.59.89.23:8000/cat/notifications](http://139.59.89.23:8000/cat/notifications){:target="_blank"}
+For follow request notifications, go to [http://139.59.89.23:8000/cat/notifications](http://139.59.89.23:8000/cat/notifications)
 --------------------------------------------------------------------------------------------------------------------------------
 
 NOTE: The URLs above will function for a limited amount of time.
