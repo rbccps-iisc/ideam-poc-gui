@@ -1,3 +1,11 @@
+For CAT UI, go to [http://139.59.89.23:8000/cat/ui](http://139.59.89.23:8000/cat/ui) (Temporary)
+=======================
+
+For follow request notifications, go to [http://139.59.89.23:8000/cat/notifications](http://139.59.89.23:8000/cat/notifications) (Temporary)
+=======================
+
+
+
 Dynamic Catalogue Server
 ========================
 
