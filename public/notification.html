@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-  <title>Starter Template - Materialize</title>
+  <title>Notification</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -48,25 +48,14 @@
   </div>
 
 </div>
-  
-
- 
-<link rel="stylesheet" type="text/css" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
-    <footer  style="position:absolute;bottom:0;width:100%;z-index:100">
-        <center>
-          <div class="container" style="font-size:14px;font-weight:bold;">
-             Made by <a href="https://jishnujayakumar.github.io" target="_blank">Jishnu P</a> <br>  © <script>document.write(new Date().getFullYear()) </script> RBCCPS, IISc Bangalore 
-          <!-- Made with <i class="icon ion-heart" style="color:red"></i> by <a>Jishnu P</a> -->
-
-        </center>
-        </div>
-    </footer>
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
+
+var main_data;
 
 (function($){
   $(function(){
@@ -78,28 +67,32 @@
 
 M.AutoInit();
 
-function share(){
+function share(__id, _tid){
 var share_status=$.ajax({
                        async:false,
-                       url: '/cat/share/',
+                       url: '/cat/share',
                        type: 'GET',
                        dataType:"JSON",
+		       data: {		      
+        		"email":''+main_data[__id]["data"]["email"],
+			"contact": ''+main_data[__id]["data"]["contact"]
+    		       }
                        }).responseJSON;
 var r=JSON.parse(share_status["value"]);
-console.log(share_status,r,r['info']);
+//console.log(share_status,r,r['info']);
 if(r['status']=='failure'){
 M.toast({html: r['reason']});
 }else{
 M.toast({html: r['info']});
+$('#'+_tid).html('');
 }
 
 }
 
-function showPaymentStatus(track_id){
-
+function showPaymentStatus(track_id, _id){
 var paymt_status=$.ajax({
                        async:false,
-                       url: '/cat/paymt-status/',
+                       url: '/cat/paymt-status',
                        type: 'GET',
                        dataType:"JSON",
 		       data: {		      
@@ -113,7 +106,7 @@ if(JSON.parse(paymt_status["value"])["Status"]=="issued"){
 M.toast({html: "Payment Pending."});
 }else if(JSON.parse(paymt_status["value"])["Status"]=="paid"){
 M.toast({html: "Payment Done. <br> Now you can grant share access."});
-$('#'+track_id).html('<button onClick="share()" class="waves-effect waves-light btn orange darken-2"><i class="material-icons right">share</i>Share</button>');
+$('#'+track_id).html('<button onClick="share(\'' + _id + '\',\'' + track_id + '\')" class="waves-effect waves-light btn orange darken-2"><i class="material-icons right">share</i>Share</button>');
 }
 
 }
@@ -123,12 +116,16 @@ var paymt_data=$.ajax({
                        async:false,
                        url: '/cat/paymt-req',
                        type: 'GET',
-                       dataType:"JSON"
+                       dataType:"JSON",
+		       data: {		      
+        		"email":''+main_data[id]["data"]["email"],
+			"contact": ''+main_data[id]["data"]["contact"]
+    		       }
                        }).responseJSON;
 
-console.log(paymt_data);
+//console.log(paymt_data);
 
-$('#'+id).html('<div id="' + JSON.parse(paymt_data["value"])["trackingid"]  + '"><button onClick="showPaymentStatus(\'' + JSON.parse(paymt_data["value"])["trackingid"] + '\')" class="waves-effect waves-light btn purple darken-2"><i class="material-icons right">info_outline</i>Track-ID: '+ JSON.parse(paymt_data["value"])["trackingid"] + '</button></div>');
+$('#'+id).html('<div id="' + JSON.parse(paymt_data["value"])["trackingid"]  + '"><button onClick="showPaymentStatus(\'' + JSON.parse(paymt_data["value"])["trackingid"] + '\',\'' + id + '\')" class="waves-effect waves-light btn purple darken-2"><i class="material-icons right">info_outline</i>Track-ID: '+ JSON.parse(paymt_data["value"])["trackingid"] + '</button></div>');
 M.toast({html: 'Payment request has been sent successfully. You can see the status of payment using the track-id provided.'})
 }
 
@@ -141,7 +138,8 @@ var ret_data=$.ajax({
                        }).responseJSON;
 
 var content = JSON.parse(ret_data['value']);
-//console.log(content, content.length);
+main_data = JSON.parse(ret_data['value']);
+//console.log(main_data,content, content.length);
 var req_content = ""
 var con_len = content.length;
 //console.log(con_len);
@@ -168,14 +166,14 @@ req_content+='<li class="collection-item avatar">\
 	' + v + ' <br>\
 	' + content[i]["data"]["timestamp"] + ' <br>\
       </p>\
-	<div id="' + i + '" class="secondary-content">\
+	<div id="' + i + '">\
       <button class="btn waves-effect waves-light" onClick="trigger_payment(' + i + ')" name="action">Accept\
     <i class="material-icons right">check</i>\
   </button></div>\
     </li>'
 }
 }
-
+//console.log(main_data);
 $("#req").html(req_content);
 
 
